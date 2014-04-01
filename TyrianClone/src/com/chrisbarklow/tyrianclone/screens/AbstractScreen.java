@@ -59,6 +59,7 @@ public class AbstractScreen implements Screen {
 	@Override
 	public void show() { 
 		Gdx.app.log(TyrianClone.LOG, "Showing screen: " + getName());
+		Gdx.input.setInputProcessor(stage);
 	}
 
 	@Override
