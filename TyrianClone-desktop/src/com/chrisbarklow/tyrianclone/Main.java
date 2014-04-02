@@ -8,7 +8,7 @@ public class Main {
 		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
 		cfg.title = "TyrianClone";
 		cfg.width = 800;
-		cfg.height = 600;
+		cfg.height = 480;
 		
 		new LwjglApplication(new TyrianClone(), cfg);
 	}

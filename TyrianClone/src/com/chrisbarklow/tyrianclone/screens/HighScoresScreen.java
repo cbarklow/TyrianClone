@@ -12,8 +12,6 @@ import com.chrisbarklow.tyrianclone.managers.SoundManager.TyrianCloneSound;
 
 public class HighScoresScreen extends AbstractScreen {
 	
-	private Table table;
-	
 	public HighScoresScreen(TyrianClone game){
 		super(game);
 	}
@@ -25,33 +23,28 @@ public class HighScoresScreen extends AbstractScreen {
 		//retrieve custom skin for 2d widgets
 		Skin skin = super.getSkin();
 		
-		table = new Table();
-		table.center();
-		table.pad(8f);
+		Table table = super.getTable();
+		table.defaults().spaceBottom( 30 );
 		
 		Profile profile = game.getProfileManager().retrieveProfile();
         
         //create the label widgets
-		Label highScores = new Label("High Scores", skin);
-		table.add(highScores).colspan(2).spaceBottom(20f);
+		table.add("High Scores").colspan(2);
 		table.row();
-		
-        Label episode1 = new Label( "Episode 1", skin );
-        table.add(episode1);
+		        
+        table.add("Episode 1");
 		String episode1HighScore = String.valueOf(profile.getHighScore(0));
 		Label level1HighScore = new Label(episode1HighScore, skin);
 		table.add(level1HighScore);
 		table.row();
-		
-		Label episode2 = new Label( "Episode 2", skin );
-        table.add(episode2);
+				
+        table.add("Episode 2");
 		String episode2HighScore = String.valueOf(profile.getHighScore(0));
 		Label level2HighScore = new Label(episode2HighScore, skin);
 		table.add(level2HighScore);
 		table.row();
-		
-		Label episode3 = new Label( "Episode 3", skin );
-        table.add(episode3);
+				
+        table.add("Episode 3");
 		String episode3HighScore = String.valueOf(profile.getHighScore(0));
 		Label level3HighScore = new Label(episode3HighScore, skin);
 		table.add(level3HighScore);
@@ -66,20 +59,20 @@ public class HighScoresScreen extends AbstractScreen {
 				game.setScreen(game.getMenuScreen());
 			}
 		});
-		table.add(backButton).colspan(2).width(300f).height(60f).spaceTop(30f);
+		table.add(backButton).size(250, 60).colspan(2);
 		
 		stage.addActor(table);
 	}
 	
-	@Override
-	public void resize(int width, int height){
-		super.resize(width, height);
-		
-		table.setWidth(width);
-		table.setHeight(height);
-		
-		//we need a complete redraw
-		table.invalidateHierarchy();
-	}
+//	@Override
+//	public void resize(int width, int height){
+//		super.resize(width, height);
+//		
+//		table.setWidth(width);
+//		table.setHeight(height);
+//		
+//		//we need a complete redraw
+//		table.invalidateHierarchy();
+//	}
 
 }

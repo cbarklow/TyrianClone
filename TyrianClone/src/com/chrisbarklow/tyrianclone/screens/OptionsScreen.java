@@ -18,7 +18,6 @@ import com.chrisbarklow.tyrianclone.managers.SoundManager.TyrianCloneSound;
 
 public class OptionsScreen extends AbstractScreen {
 	
-	private Table table;
 	private Label volumeValue;
 	
 	public OptionsScreen(TyrianClone game){
@@ -30,16 +29,13 @@ public class OptionsScreen extends AbstractScreen {
 		super.show();
 		Skin skin = super.getSkin();
 		
-		table = new Table();
-		table.center();
-		table.pad(8f);
-		
-		Label options = new Label("Options", skin);
-		table.add(options).colspan(3).spaceBottom(30f);
+		Table table = super.getTable();
+		table.defaults().spaceBottom( 30 );
+        table.columnDefaults( 0 ).padRight( 20 );
+        table.add( "Options" ).colspan( 3 );
 		table.row();
-		
-		Label soundEffects = new Label("Sound Effects: ", skin);
-		table.add(soundEffects);
+				
+		table.add("Sound Effects");
 		final CheckBox soundEffectsCheckBox = new CheckBox("", skin);
 		soundEffectsCheckBox.setChecked(game.getPreferencesManager().isSoundEnabled());
 		soundEffectsCheckBox.addListener(new ChangeListener(){
@@ -52,11 +48,10 @@ public class OptionsScreen extends AbstractScreen {
                 game.getSoundManager().play(TyrianCloneSound.CLICK);
 			}
 		});
-		table.add(soundEffectsCheckBox).colspan(2).align(Align.left);
+		table.add(soundEffectsCheckBox).colspan(2).left();
 		table.row();
 		
-		Label music = new Label("Music: ", skin);
-		table.add(music);
+		table.add("Music");
 		final CheckBox musicCheckBox = new CheckBox("", skin);
 		musicCheckBox.setChecked(game.getPreferencesManager().isMusicEnabled());
 		musicCheckBox.addListener(new ChangeListener(){
@@ -72,11 +67,10 @@ public class OptionsScreen extends AbstractScreen {
                 if( enabled ) game.getMusicManager().play( TyrianCloneMusic.MENU );
 			}
 		});
-		table.add(musicCheckBox).colspan(2).align(Align.left);
+		table.add(musicCheckBox).colspan(2).left();
 		table.row();
 		
-		Label slider = new Label("Volume", skin);
-		table.add(slider);
+		table.add("Volume");
 		final Slider volumeSlider = new Slider(0f, 1.0f, 0.1f, false, skin);
 		volumeSlider.setValue(game.getPreferencesManager().getVolume());
 		volumeSlider.addListener(new ChangeListener(){
@@ -84,13 +78,15 @@ public class OptionsScreen extends AbstractScreen {
 			public void changed(ChangeEvent event, Actor actor){
 				Gdx.app.log(TyrianClone.LOG, "volumeSlider: " + volumeSlider.getValue());
 				game.getPreferencesManager().setVolume(volumeSlider.getValue());
+				game.getMusicManager().setVolume(volumeSlider.getValue());
+				game.getSoundManager().setVolume(volumeSlider.getValue());
 				updateVolumeLabel();
 			}
-		});
-		table.add(volumeSlider).fill();
+		});		
 		volumeValue = new Label("",skin);
-		table.add(volumeValue).width(40f);
-		updateVolumeLabel();
+		updateVolumeLabel();	
+		table.add(volumeSlider);
+		table.add(volumeValue).width(40f);		
 		table.row();
 		
 		//register the back button
@@ -102,7 +98,7 @@ public class OptionsScreen extends AbstractScreen {
 				game.setScreen(game.getMenuScreen());
 			}
 		});
-		table.add(backButton).colspan(3).width(300f).height(60f).spaceTop(30f);
+		table.add(backButton).size(250, 60).colspan(3);
 		
 		stage.addActor(table);
 		
@@ -117,14 +113,14 @@ public class OptionsScreen extends AbstractScreen {
         volumeValue.setText( String.format( Locale.US, "%1.0f%%", volume ) );
     }
     
-	@Override
-	public void resize(int width, int height){
-		super.resize(width, height);
-		
-		table.setWidth(width);
-		table.setHeight(height);
-		
-		//we need a complete redraw
-		table.invalidateHierarchy();
-	}
+//	@Override
+//	public void resize(int width, int height){
+//		super.resize(width, height);
+//		
+//		table.setWidth(width);
+//		table.setHeight(height);
+//		
+//		//we need a complete redraw
+//		table.invalidateHierarchy();
+//	}
 }

@@ -16,8 +16,6 @@ public class MenuScreen extends AbstractScreen {
     private static final float BUTTON_HEIGHT = 60f;
     private static final float BUTTON_SPACING = 10f;
     
-    private Table table;
-    
     public MenuScreen(TyrianClone game){
     	super(game);
     }
@@ -29,27 +27,24 @@ public class MenuScreen extends AbstractScreen {
     	//retrieve the skin
     	Skin skin = super.getSkin();
     	
-        table = new Table();
-        table.setWidth(stage.getWidth());
-        table.setHeight(stage.getHeight());
-        table.center();
+        Table table = super.getTable();
         
     	// label "welcome"
-        Label welcomeLabel = new Label( "Welcome to Tyrian for Android!", skin );
-        table.add(welcomeLabel).spaceBottom(20f);
+        //Label welcomeLabel = new Label( "Welcome to Tyrian for Android!", skin );
+        table.add("Welcome to Tyrian for Android !").spaceBottom(50f);
         table.row();
         
         // button "start game"
         TextButton startGameButton = new TextButton( "Start game", skin);
         startGameButton.addListener(new ChangeListener(){
         	@Override
-        	public void changed(ChangeEvent event, Actor actor){
+        	public void changed(ChangeEvent event, Actor actor){        		
         		Gdx.app.log(TyrianClone.LOG, "Options button clicked");
         		game.getSoundManager().play( TyrianCloneSound.CLICK );
         		game.setScreen(game.getStartGameScreen());
         	}
         });
-        table.add(startGameButton).width(BUTTON_WIDTH).height(BUTTON_HEIGHT).spaceBottom(BUTTON_SPACING);
+        table.add(startGameButton).size(BUTTON_WIDTH, BUTTON_HEIGHT).uniform().spaceBottom(BUTTON_SPACING);
         table.row();
  
         // button "options"
@@ -62,7 +57,7 @@ public class MenuScreen extends AbstractScreen {
         		game.setScreen(game.getOptionsScreen());
         	}
         });
-        table.add(optionsButton).width(BUTTON_WIDTH).height(BUTTON_HEIGHT).spaceBottom(BUTTON_SPACING);
+        table.add(optionsButton).uniform().fill().spaceBottom(BUTTON_SPACING);
         table.row();
  
         // button "hall of fame"
@@ -75,20 +70,20 @@ public class MenuScreen extends AbstractScreen {
 				game.setScreen(game.getHighScoresScreen());
 			}
         });
-        table.add(highScoresButton).width(BUTTON_WIDTH).height(BUTTON_HEIGHT).spaceBottom(BUTTON_SPACING);
+        table.add(highScoresButton).uniform().fill().spaceBottom(BUTTON_SPACING);
         table.row();
         
         stage.addActor(table);
     }
     
-	@Override
-	public void resize(int width, int height){
-		super.resize(width, height);
-		
-		table.setWidth(width);
-		table.setHeight(height);
-		
-		//we need a complete redraw
-		table.invalidateHierarchy();
-	}
+//	@Override
+//	public void resize(int width, int height){
+//		super.resize(width, height);
+//		
+//		table.setWidth(width);
+//		table.setHeight(height);
+//		
+//		//we need a complete redraw
+//		table.invalidateHierarchy();
+//	}
 }

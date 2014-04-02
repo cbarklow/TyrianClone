@@ -26,8 +26,7 @@ public class StartGameScreen extends AbstractScreen {
 	
 	private Profile profile;
     private Ship ship;
-
-    private Table table;
+    
     private TextButton episode1Button;
     private TextButton episode2Button;
     private TextButton episode3Button;
@@ -52,23 +51,19 @@ public class StartGameScreen extends AbstractScreen {
         Skin skin = super.getSkin();
 
         // create the table actor and add it to the stage
-        table = new Table( skin );
-        table.setWidth(stage.getWidth());
-        table.setHeight(stage.getHeight());
-        table.pad(8.0f);
+        Table table = super.getTable();
+        table.defaults().spaceBottom(20);
+        table.columnDefaults( 0 ).padRight( 20 );
+        table.columnDefaults( 4 ).padLeft( 10 );
+        table.add( "Start Game" ).colspan( 5 );
 
         profile = game.getProfileManager().retrieveProfile();
         ship = profile.getShip();
-        
-        //start game label
-        Label startGame = new Label("Start Game", skin);
-        table.add(startGame).colspan(4).spaceBottom(20.0f);
-        table.row();
 
         // create the level buttons
-        Label levels = new Label("Levels", skin);
-        table.add(levels);
-        
+        table.row();
+        table.add( "Episodes" );
+                
         episode1Button = new TextButton( "Episode 1", skin );
         episode1Button.addListener(new ChangeListener(){
         	@Override
@@ -84,7 +79,7 @@ public class StartGameScreen extends AbstractScreen {
         		}
         	}
         });
-        table.add(episode1Button);
+        table.add(episode1Button).fillX().padRight(10);
 
         episode2Button = new TextButton( "Episode 2", skin );
         episode2Button.addListener(new ChangeListener(){
@@ -100,7 +95,7 @@ public class StartGameScreen extends AbstractScreen {
         		}
         	}
         });
-        table.add(episode2Button);
+        table.add(episode2Button).fillX().padRight(10);
 
         episode3Button = new TextButton( "Episode 3", skin );
         episode3Button.addListener(new ChangeListener(){
@@ -116,12 +111,11 @@ public class StartGameScreen extends AbstractScreen {
         		}
         	}
         });;
-        table.add(episode3Button);
+        table.add(episode3Button).fillX();
         table.row();
 
         // create the item select boxes
-        Label shipModel = new Label("Ship Model", skin);
-        table.add(shipModel);
+        table.add("Ship Model");
         shipModelSelectBox = new SelectBox<ShipModel>( skin );
         shipModelSelectBox.setItems( ShipModel.values() );
         shipModelSelectBox.addListener( new ChangeListener(){
@@ -140,7 +134,7 @@ public class StartGameScreen extends AbstractScreen {
                 }
         	}
         });
-        table.add(shipModelSelectBox).colspan(3);
+        table.add(shipModelSelectBox).fillX().colspan(3);
         shipModelImage = new Image();
         table.add(shipModelImage);        
         table.row();
@@ -164,7 +158,7 @@ public class StartGameScreen extends AbstractScreen {
                 }
         	}
         });
-        table.add(frontGunSelectBox).colspan(3);
+        table.add(frontGunSelectBox).fillX().colspan(3);
         table.row();
 
         Label shield = new Label("Shield", skin);
@@ -187,13 +181,12 @@ public class StartGameScreen extends AbstractScreen {
                 }
         	}
         });
-        table.add(shieldModelSelectBox).colspan(3);
+        table.add(shieldModelSelectBox).fillX().colspan(3);
         table.row();
 
-        Label creditsLabel = new Label("Credits", skin);
-        table.add(creditsLabel);
+        table.add("Credits");
         credits = new Label( profile.getCreditsAsText(), skin );
-        table.add(credits);
+        table.add(credits).left().colspan(4);
         table.row();
 
       //register the back button
@@ -205,7 +198,7 @@ public class StartGameScreen extends AbstractScreen {
   				game.setScreen(game.getMenuScreen());
   			}
   		});
-  		table.add(backButton).colspan(4).width(300f).height(60f).spaceTop(30f);
+  		table.add(backButton).size(250, 60).colspan(5);
 
   		updateValues();
   		
@@ -217,14 +210,14 @@ public class StartGameScreen extends AbstractScreen {
     	shipModelImage.setDrawable(new TextureRegionDrawable(getAtlas().findRegion(ship.getShipModel().getPreviewImageName())));
     }
     
-	@Override
-	public void resize(int width, int height){
-		super.resize(width, height);
-		
-		table.setWidth(width);
-		table.setHeight(height);
-		
-		//we need a complete redraw
-		table.invalidateHierarchy();
-	}
+//	@Override
+//	public void resize(int width, int height){
+//		super.resize(width, height);
+//		
+//		table.setWidth(width);
+//		table.setHeight(height);
+//		
+//		//we need a complete redraw
+//		table.invalidateHierarchy();
+//	}
 }

@@ -1,8 +1,12 @@
 package com.chrisbarklow.tyrianclone.screens;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Scaling;
 import com.chrisbarklow.tyrianclone.TyrianClone;
 import com.chrisbarklow.tyrianclone.managers.MusicManager.TyrianCloneMusic;
 
@@ -22,24 +26,25 @@ public class SplashScreen extends AbstractScreen {
 		
 		//get our texture region from our image atlas
 		AtlasRegion splashRegion = getAtlas().findRegion("splash-image");
+		Drawable splashDrawable = new TextureRegionDrawable(splashRegion);
 		
 		//create the splash image actor and set its size
-		splashImage = new Image(splashRegion);
-		splashImage.setWidth(stage.getWidth());
-		splashImage.setHeight(stage.getHeight());
+		splashImage = new Image(splashDrawable, Scaling.stretch);
+		splashImage.setFillParent(true);
 
 		//this is needed for the fade-in effect
 		splashImage.getColor().a = 0f;
 		
-		//configure the fade-in and fade-out effect of the splash image
-		splashImage.addAction(Actions.sequence(Actions.fadeIn(0.75f), 
-				Actions.delay(0.75f),
-				Actions.fadeOut(1.75f), Actions.run(new Runnable(){
-					public void run(){
-						// when the image is faded out, move on to the next screen
-		                game.setScreen( game.getMenuScreen() );
-					}
-				})));
+		//configure the fade-in and fade-out effect of the splash image		
+		splashImage.addAction(Actions.sequence(Actions.fadeIn( 0.75f ), Actions.delay( 1.75f ), Actions.fadeOut( 0.75f ),
+	            new Action() {
+	                @Override
+	                public boolean act(float delta ){
+	                    // the last action will move to the next screen
+	                    game.setScreen( new MenuScreen( game ) );
+	                    return true;
+	                }
+	            }));
 		
 		stage.addActor(splashImage);
 	}

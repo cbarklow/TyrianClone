@@ -10,6 +10,7 @@ import com.chrisbarklow.tyrianclone.managers.PreferencesManager;
 import com.chrisbarklow.tyrianclone.managers.ProfileManager;
 import com.chrisbarklow.tyrianclone.managers.SoundManager;
 import com.chrisbarklow.tyrianclone.screens.HighScoresScreen;
+import com.chrisbarklow.tyrianclone.screens.LevelScreen;
 import com.chrisbarklow.tyrianclone.screens.MenuScreen;
 import com.chrisbarklow.tyrianclone.screens.OptionsScreen;
 import com.chrisbarklow.tyrianclone.screens.SplashScreen;
@@ -96,6 +97,7 @@ public class TyrianClone extends Game {
         levelManager = new LevelManager();
 		
         setScreen(getSplashScreen());
+        //setScreen(new LevelScreen(this, 0));
 	}
 	
 	@Override
@@ -108,7 +110,7 @@ public class TyrianClone extends Game {
 	public void render(){
 		super.render();
 		//output the current FPS
-		if(debug_mode) fpsLogger.log();
+		//if(debug_mode) fpsLogger.log();
 	}
 	
 	@Override
