@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.chrisbarklow.tyrianclone.TyrianClone;
+import com.chrisbarklow.tyrianclone.managers.SoundManager.TyrianCloneSound;
 
 public class MenuScreen extends AbstractScreen {
 	// setup the dimensions of the menu buttons
@@ -15,20 +16,22 @@ public class MenuScreen extends AbstractScreen {
     private static final float BUTTON_HEIGHT = 60f;
     private static final float BUTTON_SPACING = 10f;
     
+    private Table table;
+    
     public MenuScreen(TyrianClone game){
     	super(game);
     }
     
     @Override
-    public void resize(int width, int height){
-    	super.resize(width, height);
+    public void show(){
+    	super.show();
     	
     	//retrieve the skin
     	Skin skin = super.getSkin();
     	
-        Table table = new Table();
-        table.setWidth(width);
-        table.setHeight(height);
+        table = new Table();
+        table.setWidth(stage.getWidth());
+        table.setHeight(stage.getHeight());
         table.center();
         
     	// label "welcome"
@@ -38,6 +41,14 @@ public class MenuScreen extends AbstractScreen {
         
         // button "start game"
         TextButton startGameButton = new TextButton( "Start game", skin);
+        startGameButton.addListener(new ChangeListener(){
+        	@Override
+        	public void changed(ChangeEvent event, Actor actor){
+        		Gdx.app.log(TyrianClone.LOG, "Options button clicked");
+        		game.getSoundManager().play( TyrianCloneSound.CLICK );
+        		game.setScreen(game.getStartGameScreen());
+        	}
+        });
         table.add(startGameButton).width(BUTTON_WIDTH).height(BUTTON_HEIGHT).spaceBottom(BUTTON_SPACING);
         table.row();
  
@@ -47,6 +58,7 @@ public class MenuScreen extends AbstractScreen {
         	@Override
         	public void changed(ChangeEvent event, Actor actor){
         		Gdx.app.log(TyrianClone.LOG, "Options button clicked");
+        		game.getSoundManager().play( TyrianCloneSound.CLICK );
         		game.setScreen(game.getOptionsScreen());
         	}
         });
@@ -59,6 +71,7 @@ public class MenuScreen extends AbstractScreen {
         	@Override
 			public void changed(ChangeEvent event, Actor actor){
         		Gdx.app.log(TyrianClone.LOG, "High Scores button clicked");
+        		game.getSoundManager().play( TyrianCloneSound.CLICK );
 				game.setScreen(game.getHighScoresScreen());
 			}
         });
@@ -67,5 +80,15 @@ public class MenuScreen extends AbstractScreen {
         
         stage.addActor(table);
     }
-
+    
+	@Override
+	public void resize(int width, int height){
+		super.resize(width, height);
+		
+		table.setWidth(width);
+		table.setHeight(height);
+		
+		//we need a complete redraw
+		table.invalidateHierarchy();
+	}
 }

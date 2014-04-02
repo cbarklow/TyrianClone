@@ -3,9 +3,12 @@ package com.chrisbarklow.tyrianclone.domain;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.Json.Serializable;
 import com.badlogic.gdx.utils.JsonValue;
+import com.chrisbarklow.tyrianclone.TyrianClone;
+import com.chrisbarklow.tyrianclone.utils.TextUtils;
 
 public class Profile implements Serializable {
 	
@@ -15,7 +18,12 @@ public class Profile implements Serializable {
 	private Ship ship;
 	
 	public Profile(){
-		highScores = new HashMap<Integer,Integer>();
+		credits = 1000;
+		highScores = new HashMap<Integer,Integer>();		
+		ship = new Ship();
+		ship.install(ShipModel.USP_TALON);
+		ship.install(FrontGun.PULSE_CANNON);
+		ship.install(Shield.SIF);
 	}
 	
 	/**
@@ -52,6 +60,10 @@ public class Profile implements Serializable {
     {
         return credits;
     }
+    
+    public String getCreditsAsText(){
+    	return TextUtils.creditStyle(credits);
+    }
 
     /**
      * Retrieves the current ship configuration.
@@ -79,12 +91,17 @@ public class Profile implements Serializable {
     /**
      * Buys the given item.
      */
-    public void buy(
+    public boolean buy(
         Item item )
     {
         if( canBuy( item ) ) {
+        	Gdx.app.log(TyrianClone.LOG, "Buying item: " + item.getName());
             credits -= item.getPrice();
             ship.install( item );
+            return true;
+        } else {
+        	Gdx.app.log(TyrianClone.LOG, "Not enough credits to buy item.");
+        	return false;
         }
     }
 
@@ -93,13 +110,15 @@ public class Profile implements Serializable {
 		json.writeValue( "currentLevelId", currentLevelId );
         json.writeValue( "credits", credits );
         json.writeValue( "highScores", highScores );
+        json.writeValue("ship", ship);
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public void read(Json json, JsonValue jsonData) {
-		// libgdx handles the keys of JSON formatted HashMaps as Strings, but we
-        // want it to be an integer instead (levelId)
+		currentLevelId = json.readValue("currentLevelId", Integer.class, jsonData);
+		credits = json.readValue("credits", Integer.class, jsonData);
+		
 		Map<String,Integer> highScores = json.readValue( "highScores", HashMap.class,
             Integer.class, jsonData );
         for( String levelIdAsString : highScores.keySet() ) {

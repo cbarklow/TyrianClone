@@ -1,16 +1,16 @@
-package com.chrisbarklow.tyrianclone;
+package com.chrisbarklow.tyrianclone.managers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 
-public class TyrianClonePreferences {
+public class PreferencesManager {
 	// constants
     private static final String PREF_VOLUME = "volume";
     private static final String PREF_MUSIC_ENABLED = "music.enabled";
     private static final String PREF_SOUND_ENABLED = "sound.enabled";
     private static final String PREFS_NAME = "tyrian";
  
-    public TyrianClonePreferences()
+    public PreferencesManager()
     {
     }
  
@@ -19,7 +19,7 @@ public class TyrianClonePreferences {
         return Gdx.app.getPreferences( PREFS_NAME );
     }
  
-    public boolean isSoundEffectsEnabled()
+    public boolean isSoundEnabled()
     {
         return getPrefs().getBoolean( PREF_SOUND_ENABLED, true );
     }

@@ -2,12 +2,18 @@ package com.chrisbarklow.tyrianclone;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.FPSLogger;
+import com.chrisbarklow.tyrianclone.managers.LevelManager;
+import com.chrisbarklow.tyrianclone.managers.MusicManager;
+import com.chrisbarklow.tyrianclone.managers.PreferencesManager;
+import com.chrisbarklow.tyrianclone.managers.ProfileManager;
+import com.chrisbarklow.tyrianclone.managers.SoundManager;
 import com.chrisbarklow.tyrianclone.screens.HighScoresScreen;
 import com.chrisbarklow.tyrianclone.screens.MenuScreen;
 import com.chrisbarklow.tyrianclone.screens.OptionsScreen;
 import com.chrisbarklow.tyrianclone.screens.SplashScreen;
-import com.chrisbarklow.tyrianclone.services.ProfileService;
+import com.chrisbarklow.tyrianclone.screens.StartGameScreen;
 
 
 public class TyrianClone extends Game {
@@ -18,22 +24,37 @@ public class TyrianClone extends Game {
 	private FPSLogger fpsLogger;
 	
 	//services
-	private final ProfileService profileService;
-	private final TyrianClonePreferences preferences;
+	private final ProfileManager profileService;
+	private final PreferencesManager preferencesManager;
+	private MusicManager musicManager;
+	private SoundManager soundManager;
+	private LevelManager levelManager;
 	
 	public static boolean debug_mode = true;
 	
 	public TyrianClone(){
-		profileService = new ProfileService();
-		preferences = new TyrianClonePreferences();
+		profileService = new ProfileManager();
+		preferencesManager = new PreferencesManager();
 	}
 	
-	public ProfileService getProfileService(){
+	public ProfileManager getProfileManager(){
 		return profileService;
 	}
 	
-	public TyrianClonePreferences getPreferences(){
-		return preferences;
+	public PreferencesManager getPreferencesManager(){
+		return preferencesManager;
+	}
+	
+	public SoundManager getSoundManager(){
+		return soundManager;
+	}
+	
+	public MusicManager getMusicManager(){
+		return musicManager;
+	}
+	
+	public LevelManager getLevelManager(){
+		return levelManager;
 	}
 	
 	public SplashScreen getSplashScreen(){
@@ -42,6 +63,10 @@ public class TyrianClone extends Game {
 	
 	public MenuScreen getMenuScreen(){
 		return new MenuScreen(this);
+	}
+	
+	public StartGameScreen getStartGameScreen(){
+		return new StartGameScreen(this);
 	}
 	
 	public HighScoresScreen getHighScoresScreen(){
@@ -56,11 +81,26 @@ public class TyrianClone extends Game {
 	public void create(){
 		Gdx.app.log(TyrianClone.LOG, "Creating game");
 		fpsLogger = new FPSLogger();
-		setScreen(getSplashScreen());
+		profileService.retrieveProfile();
+		
+		// create the music manager service
+        musicManager = new MusicManager();
+        musicManager.setVolume(preferencesManager.getVolume());
+        musicManager.setEnabled(preferencesManager.isMusicEnabled());
+
+        // create the sound manager service
+        soundManager = new SoundManager();
+        soundManager.setVolume(preferencesManager.getVolume());
+        soundManager.setEnabled(preferencesManager.isSoundEnabled());
+        
+        levelManager = new LevelManager();
+		
+        setScreen(getSplashScreen());
 	}
 	
 	@Override
 	public void resize(int width, int height){
+		super.resize(width, height);
 		Gdx.app.log(TyrianClone.LOG, "Resizing game to: " + width + " x " + height);
 	}
 	
@@ -68,22 +108,33 @@ public class TyrianClone extends Game {
 	public void render(){
 		super.render();
 		//output the current FPS
-		fpsLogger.log();
+		if(debug_mode) fpsLogger.log();
 	}
 	
 	@Override
 	public void pause(){
+		super.pause();
 		Gdx.app.log(TyrianClone.LOG, "Pausing the game.");
 		profileService.persist();
 	}
 	
 	@Override
 	public void resume(){
+		super.resume();
 		Gdx.app.log(TyrianClone.LOG, "Resuming the game.");
 	}
 	
 	@Override
+    public void setScreen(
+        Screen screen )
+    {
+        super.setScreen( screen );
+        Gdx.app.log( TyrianClone.LOG, "Setting screen: " + screen.getClass().getSimpleName() );
+    }
+	
+	@Override
 	public void dispose(){
+		super.dispose();
 		Gdx.app.log(TyrianClone.LOG, "Disposing the game.");
 	}
 }

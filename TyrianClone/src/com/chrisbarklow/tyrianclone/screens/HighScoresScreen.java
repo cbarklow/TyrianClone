@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.chrisbarklow.tyrianclone.TyrianClone;
 import com.chrisbarklow.tyrianclone.domain.Profile;
+import com.chrisbarklow.tyrianclone.managers.SoundManager.TyrianCloneSound;
 
 public class HighScoresScreen extends AbstractScreen {
 	
@@ -28,7 +29,7 @@ public class HighScoresScreen extends AbstractScreen {
 		table.center();
 		table.pad(8f);
 		
-		Profile profile = game.getProfileService().retrieveProfile();
+		Profile profile = game.getProfileManager().retrieveProfile();
         
         //create the label widgets
 		Label highScores = new Label("High Scores", skin);
@@ -61,6 +62,7 @@ public class HighScoresScreen extends AbstractScreen {
 		backButton.addListener(new ChangeListener(){
 			@Override
 			public void changed(ChangeEvent event, Actor actor){
+				game.getSoundManager().play( TyrianCloneSound.CLICK );
 				game.setScreen(game.getMenuScreen());
 			}
 		});

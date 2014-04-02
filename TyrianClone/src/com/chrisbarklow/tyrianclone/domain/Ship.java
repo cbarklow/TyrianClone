@@ -14,12 +14,12 @@ public class Ship {
         return shipModel;
     }
 
-    public Item getFrontGun()
+    public FrontGun getFrontGun()
     {
         return frontGun;
     }
 
-    public Item getShield()
+    public Shield getShield()
     {
         return shield;
     }

@@ -1,14 +1,13 @@
 package com.chrisbarklow.tyrianclone.screens;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.Texture.TextureFilter;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.chrisbarklow.tyrianclone.TyrianClone;
+import com.chrisbarklow.tyrianclone.managers.MusicManager.TyrianCloneMusic;
 
 public class SplashScreen extends AbstractScreen {
-	private Texture splashTexture;	
+	private Image splashImage;
 	
 	public SplashScreen(TyrianClone game){
 		super(game);
@@ -18,28 +17,17 @@ public class SplashScreen extends AbstractScreen {
 	public void show(){
 		super.show();
 		
-		//load the splash image
-		splashTexture = new Texture("splash.png");
-		
-		//set linear texture filter to improve stretching
-		splashTexture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
-	}
-	
-	@Override
-	public void resize(int width, int height){
-		super.resize(width, height);
-		
-		//let's make sure the stage is clear
-		stage.clear();
+		// start playing the menu music
+        game.getMusicManager().play( TyrianCloneMusic.MENU );
 		
 		//get our texture region from our image atlas
-		TextureRegion splashRegion = new TextureRegion( splashTexture, 0, 0, 512, 301 );
+		AtlasRegion splashRegion = getAtlas().findRegion("splash-image");
 		
 		//create the splash image actor and set its size
-		Image splashImage = new Image(splashRegion);
-		splashImage.setWidth(width);
-		splashImage.setHeight(height);
-		
+		splashImage = new Image(splashRegion);
+		splashImage.setWidth(stage.getWidth());
+		splashImage.setHeight(stage.getHeight());
+
 		//this is needed for the fade-in effect
 		splashImage.getColor().a = 0f;
 		
@@ -57,8 +45,11 @@ public class SplashScreen extends AbstractScreen {
 	}
 	
 	@Override
-	public void dispose(){
-		super.dispose();
-		splashTexture.dispose();
+	public void resize(int width, int height){
+		super.resize(width, height);
+		splashImage.setWidth(width);
+		splashImage.setHeight(height);
+		
+		splashImage.invalidateHierarchy();
 	}
 }

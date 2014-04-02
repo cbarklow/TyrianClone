@@ -1,4 +1,4 @@
-package com.chrisbarklow.tyrianclone.services;
+package com.chrisbarklow.tyrianclone.managers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
@@ -7,7 +7,7 @@ import com.badlogic.gdx.utils.Json;
 import com.chrisbarklow.tyrianclone.TyrianClone;
 import com.chrisbarklow.tyrianclone.domain.Profile;
 
-public class ProfileService {
+public class ProfileManager {
 	// the location of the profile data file
     private static final String PROFILE_DATA_FILE = ".tyrianclone/profile-v1.json";
 
@@ -17,7 +17,7 @@ public class ProfileService {
     /**
      * Creates the profile service.
      */
-    public ProfileService()
+    public ProfileManager()
     {
     }
 
@@ -32,7 +32,7 @@ public class ProfileService {
         if( profile != null ) return profile;
 
         // create the handle for the profile data file
-        FileHandle profileDataFile = Gdx.files.external( PROFILE_DATA_FILE );
+        FileHandle profileDataFile = Gdx.files.local( PROFILE_DATA_FILE );
 
         // create the JSON utility object
         Json json = new Json();
@@ -45,16 +45,10 @@ public class ProfileService {
 
                 // read the file as text
                 String profileAsCode = profileDataFile.readString();
-
-                if(TyrianClone.debug_mode){
-                    // restore the state
-                    profile = json.fromJson( Profile.class, profileAsCode );
-                } else {
-	                // decode the contents
-	                String profileAsText = Base64Coder.decodeString( profileAsCode );
-	                // restore the state
-	                profile = json.fromJson( Profile.class, profileAsText );
-                }
+                // decode the contents
+                String profileAsText = Base64Coder.decodeString( profileAsCode );
+                // restore the state
+                profile = json.fromJson( Profile.class, profileAsText );                
 
             } catch( Exception e ) {
 
@@ -90,19 +84,15 @@ public class ProfileService {
         Json json = new Json();
 
         // create the handle for the profile data file
-        FileHandle profileDataFile = Gdx.files.external( PROFILE_DATA_FILE );
+        FileHandle profileDataFile = Gdx.files.local( PROFILE_DATA_FILE );
 
         // convert the given profile to text
         String profileAsText = json.toJson( profile );
 
         // encode the text
-        if(TyrianClone.debug_mode){
-        	profileDataFile.writeString(profileAsText, false);
-        } else{
-        	String profileAsCode = Base64Coder.encodeString( profileAsText );
-            // write the profile data file
-            profileDataFile.writeString( profileAsCode, false );
-        }
+    	String profileAsCode = Base64Coder.encodeString( profileAsText );
+        // write the profile data file
+        profileDataFile.writeString( profileAsCode, false );        
     }
 
     /**

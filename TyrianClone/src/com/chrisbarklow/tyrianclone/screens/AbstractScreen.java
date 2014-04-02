@@ -14,39 +14,52 @@ public class AbstractScreen implements Screen {
 	
 	protected final TyrianClone game;
 	protected final SpriteBatch batch;	
-	protected final Stage stage;	
+	protected final Stage stage;
+	
+	private TextureAtlas atlas;
 	
 	private Skin skin;
 	
 	public AbstractScreen(TyrianClone game){
 		this.game = game;
-		this.batch = new SpriteBatch();		
-		this.stage = new Stage(new ScreenViewport());
+		this.batch = new SpriteBatch();	        
+		this.stage = new Stage(new ScreenViewport());		
 	}
 	
 	protected String getName(){
         return getClass().getSimpleName();
     }
 	
+	protected boolean isGameScreen()
+    {
+        return false;
+    }
+	
 	protected Skin getSkin(){
 		if(skin == null){
-			TextureAtlas atlas = new TextureAtlas(Gdx.files.internal( "uiskin.atlas" ));
-			skin = new Skin(Gdx.files.internal( "uiskin.json" ), atlas);			
+			TextureAtlas atlas = new TextureAtlas(Gdx.files.internal( "skin/uiskin.atlas" ));
+			skin = new Skin(Gdx.files.internal( "skin/uiskin.json" ), atlas);			
 		}
 		
 		return skin;
 	}
-	 
 	
-	
+	public TextureAtlas getAtlas(){
+		if(atlas == null){
+			atlas = new TextureAtlas(Gdx.files.internal("image-atlas/texturepacker.txt"));
+		}
+		return atlas;
+	}
+	 	
 	@Override
 	public void render(float delta) {
+		//update and draw stage actors
+		stage.act(delta);
+		
 		//the following code clears the screen with the given RGB color
 		Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		
-		//update and draw stage actors
-		stage.act(delta);
+	
 		stage.draw();
 	}
 
@@ -64,19 +77,16 @@ public class AbstractScreen implements Screen {
 
 	@Override
 	public void hide() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void pause() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void resume() {
-		// TODO Auto-generated method stub
 
 	}
 

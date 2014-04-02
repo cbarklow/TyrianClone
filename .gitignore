@@ -1,2 +1,7 @@
 .metadata/*
 *.class
+TyrianClone-android/bin/*
+TyrianClone-desktop/bin/*
+TyrianClone-desktop/.tyrianclone/*
+TyrianClone-html/.gwt/*
+
