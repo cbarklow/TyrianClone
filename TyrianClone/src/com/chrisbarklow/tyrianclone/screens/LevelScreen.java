@@ -2,7 +2,6 @@ package com.chrisbarklow.tyrianclone.screens;
 
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.chrisbarklow.tyrianclone.TyrianClone;
-import com.chrisbarklow.tyrianclone.domain.Level;
 import com.chrisbarklow.tyrianclone.domain.Profile;
 import com.chrisbarklow.tyrianclone.managers.MusicManager.TyrianCloneMusic;
 import com.chrisbarklow.tyrianclone.screens.scene2d.Ship2D;
@@ -10,7 +9,7 @@ import com.chrisbarklow.tyrianclone.screens.scene2d.Ship2D;
 public class LevelScreen extends AbstractScreen {
 	
 	private final Profile profile;
-    private final Level level;
+    //private final Level level;
 
     private Ship2D ship2D;
 
@@ -19,7 +18,7 @@ public class LevelScreen extends AbstractScreen {
 
         // set the basic attributes
         profile = game.getProfileManager().retrieveProfile();
-        level = game.getLevelManager().findLevelById( targetLevelId );
+        //level = game.getLevelManager().findLevelById( targetLevelId );
     }
 
     @Override
@@ -49,4 +48,10 @@ public class LevelScreen extends AbstractScreen {
     public boolean isGameScreen(){
     	return true;
     }
+    
+//    @Override
+//    public void render(float delta){
+//    	super.render(delta);
+//    	ship2D.moveShip(delta);
+//    }
 }

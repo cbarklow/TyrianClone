@@ -12,6 +12,9 @@ import com.chrisbarklow.tyrianclone.TyrianClone;
 
 public class AbstractScreen implements Screen {
 	
+	public static final int GAME_VIEWPORT_WIDTH = 400;
+	public static final int GAME_VIEWPORT_HEIGHT = 240;
+	
 	protected final TyrianClone game;
 	protected final SpriteBatch batch;	
 	protected final Stage stage;
