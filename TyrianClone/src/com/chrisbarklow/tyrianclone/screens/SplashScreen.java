@@ -25,7 +25,7 @@ public class SplashScreen extends AbstractScreen {
         game.getMusicManager().play( TyrianCloneMusic.MENU );
 		
 		//get our texture region from our image atlas
-		AtlasRegion splashRegion = getAtlas().findRegion("splash-image");
+		AtlasRegion splashRegion = getAtlas().findRegion("splash-screen/splash-image");
 		Drawable splashDrawable = new TextureRegionDrawable(splashRegion);
 		
 		//create the splash image actor and set its size

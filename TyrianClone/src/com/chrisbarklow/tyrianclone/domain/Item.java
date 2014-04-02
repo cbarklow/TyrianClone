@@ -5,6 +5,8 @@ public interface Item {
 	
 	String getName();
 	
+	String getSimpleName();
+	
 	int getPrice();
 
 }

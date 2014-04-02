@@ -64,7 +64,7 @@ public class AbstractScreen implements Screen {
 	
 	public TextureAtlas getAtlas(){
 		if(atlas == null){
-			atlas = new TextureAtlas(Gdx.files.internal("image-atlas/texturepacker.txt"));
+			atlas = new TextureAtlas(Gdx.files.internal("image-atlas/pages.txt"));
 		}
 		return atlas;
 	}

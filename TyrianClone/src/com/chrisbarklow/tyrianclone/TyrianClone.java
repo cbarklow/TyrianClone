@@ -96,8 +96,8 @@ public class TyrianClone extends Game {
         
         levelManager = new LevelManager();
 		
-        setScreen(getSplashScreen());
-        //setScreen(new LevelScreen(this, 0));
+        //setScreen(getSplashScreen());
+        setScreen(new LevelScreen(this, 0));
 	}
 	
 	@Override
@@ -110,7 +110,7 @@ public class TyrianClone extends Game {
 	public void render(){
 		super.render();
 		//output the current FPS
-		//if(debug_mode) fpsLogger.log();
+		if(debug_mode) fpsLogger.log();
 	}
 	
 	@Override

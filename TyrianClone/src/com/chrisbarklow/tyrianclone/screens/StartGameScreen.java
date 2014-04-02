@@ -207,7 +207,7 @@ public class StartGameScreen extends AbstractScreen {
     
     private void updateValues(){
     	//images
-    	shipModelImage.setDrawable(new TextureRegionDrawable(getAtlas().findRegion(ship.getShipModel().getPreviewImageName())));
+    	shipModelImage.setDrawable(new TextureRegionDrawable(getAtlas().findRegion("level-screen/" +ship.getShipModel().getSimpleName(), 0)));
     }
     
 //	@Override

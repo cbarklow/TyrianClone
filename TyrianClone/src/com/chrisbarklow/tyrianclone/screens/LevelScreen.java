@@ -1,6 +1,8 @@
 package com.chrisbarklow.tyrianclone.screens;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.utils.Scaling;
 import com.chrisbarklow.tyrianclone.TyrianClone;
 import com.chrisbarklow.tyrianclone.domain.Profile;
 import com.chrisbarklow.tyrianclone.managers.MusicManager.TyrianCloneMusic;
@@ -31,10 +33,13 @@ public class LevelScreen extends AbstractScreen {
 
         // create the ship and add it to the stage
         ship2D = Ship2D.create( profile.getShip(), getAtlas() );
+        ship2D.setWidth( .1f * Gdx.graphics.getWidth());
+        ship2D.setHeight(.1f * Gdx.graphics.getHeight());
+        ship2D.setScaling(Scaling.fill);
 
         // center the ship horizontally
-        ship2D.setX(stage.getWidth()/2 - ship2D.getWidth()/2);
-        ship2D.setY(ship2D.getHeight());
+        ship2D.setInitialPosition( ( Gdx.graphics.getWidth() / 2 - ship2D.getWidth() / 2 ),
+            ship2D.getHeight() );
 
         // add the ship to the stage
         stage.addActor( ship2D );

@@ -25,6 +25,12 @@ public enum Shield implements Item {
     {
         return name;
     }
+    
+    @Override
+    public String getSimpleName()
+    {
+        return "shield-" + name().replaceAll( "_", "-" ).toLowerCase();
+    }
 
     public int getPrice()
     {
