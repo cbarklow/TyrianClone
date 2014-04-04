@@ -48,7 +48,7 @@ public class LevelScreen extends AbstractScreen {
             ship2D.getHeight() );
 
         // add the ship to the stage
-        //stage.addActor( ship2D );
+        stage.addActor( ship2D );
 
         // add a fade-in effect to the whole stage
         stage.getRoot().getColor().a = 0f;

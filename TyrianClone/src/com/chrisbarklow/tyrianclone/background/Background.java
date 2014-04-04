@@ -33,28 +33,29 @@ public class Background {
 	}
 
 	public void createTiles(){
-		TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("image-atlas/"+levelName+".txt"));
+//		TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("image-atlas/"+levelName+".txt"));
+//		
+//		for (Layer layer : layers) {
+//			ArrayList<Integer> tileIds = layer.data;
+//			int x = 0;
+//			int y = (height-1) * tileheight;
+//			for(int tileId : tileIds){
+//				AtlasRegion tileRegion = atlas.findRegion(levelName + "-" +tileId);
+//				Drawable tileDrawable = new TextureRegionDrawable(tileRegion);
+//				Image tileImage = new Image(tileDrawable);
+//				tileImage.setX(x);
+//				tileImage.setY(y);
+//				stage.addActor(tileImage);
+//				if(x < ((width-1) * tilewidth)){
+//					x += tilewidth;
+//				} else {
+//					x = 0;
+//					y -= tileheight;
+//				}
+//			}
+//		}
 		
-		for (Layer layer : layers) {
-			ArrayList<Integer> tileIds = layer.data;
-			int x = 0;
-			int y = (height-1) * tileheight;
-			for(int tileId : tileIds){
-				AtlasRegion tileRegion = atlas.findRegion(levelName + "-" +tileId);
-				Drawable tileDrawable = new TextureRegionDrawable(tileRegion);
-				Image tileImage = new Image(tileDrawable);
-				tileImage.setX(x);
-				tileImage.setY(y);
-//				tileImage.setScaling(Scaling.fill);
-				stage.addActor(tileImage);
-				if(x < ((width-1) * tilewidth)){
-					x += tilewidth;
-				} else {
-					x = 0;
-					y -= tileheight;
-				}
-			}
-		}
+		
 	}
 
 }

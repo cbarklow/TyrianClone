@@ -10,11 +10,11 @@ import com.chrisbarklow.tyrianclone.managers.PreferencesManager;
 import com.chrisbarklow.tyrianclone.managers.ProfileManager;
 import com.chrisbarklow.tyrianclone.managers.SoundManager;
 import com.chrisbarklow.tyrianclone.screens.HighScoresScreen;
-import com.chrisbarklow.tyrianclone.screens.LevelScreen;
 import com.chrisbarklow.tyrianclone.screens.MenuScreen;
 import com.chrisbarklow.tyrianclone.screens.OptionsScreen;
 import com.chrisbarklow.tyrianclone.screens.SplashScreen;
 import com.chrisbarklow.tyrianclone.screens.StartGameScreen;
+import com.chrisbarklow.tyrianclone.screens.TestScreen;
 
 
 public class TyrianClone extends Game {
@@ -97,7 +97,8 @@ public class TyrianClone extends Game {
         levelManager = new LevelManager();
 		
         //setScreen(getSplashScreen());
-        setScreen(new LevelScreen(this, "test-level"));
+        //setScreen(new LevelScreen(this, "test-level"));
+        setScreen(new TestScreen());
 	}
 	
 	@Override
