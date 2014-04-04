@@ -2,10 +2,12 @@ package com.chrisbarklow.tyrianclone;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.chrisbarklow.tyrianclone.managers.LevelManager;
 import com.chrisbarklow.tyrianclone.managers.MusicManager;
+import com.chrisbarklow.tyrianclone.managers.PreferenceManager;
 import com.chrisbarklow.tyrianclone.managers.PreferencesManager;
 import com.chrisbarklow.tyrianclone.managers.ProfileManager;
 import com.chrisbarklow.tyrianclone.managers.SoundManager;
@@ -14,7 +16,7 @@ import com.chrisbarklow.tyrianclone.screens.MenuScreen;
 import com.chrisbarklow.tyrianclone.screens.OptionsScreen;
 import com.chrisbarklow.tyrianclone.screens.SplashScreen;
 import com.chrisbarklow.tyrianclone.screens.StartGameScreen;
-import com.chrisbarklow.tyrianclone.screens.TestScreen;
+import com.chrisbarklow.tyrianclone.screens.StartScreen;
 
 
 public class TyrianClone extends Game {
@@ -30,12 +32,18 @@ public class TyrianClone extends Game {
 	private MusicManager musicManager;
 	private SoundManager soundManager;
 	private LevelManager levelManager;
+	private PreferenceManager preferenceManager;
 	
 	public static boolean debug_mode = true;
 	
 	public TyrianClone(){
 		profileService = new ProfileManager();
 		preferencesManager = new PreferencesManager();
+		preferenceManager = new PreferenceManager();	
+	}
+	
+	public PreferenceManager getPreferenceManager(){
+		return preferenceManager;
 	}
 	
 	public ProfileManager getProfileManager(){
@@ -98,7 +106,8 @@ public class TyrianClone extends Game {
 		
         //setScreen(getSplashScreen());
         //setScreen(new LevelScreen(this, "test-level"));
-        setScreen(new TestScreen());
+        //setScreen(new TestScreen(this));
+        setScreen(new StartScreen(this));
 	}
 	
 	@Override
