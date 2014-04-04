@@ -1,81 +1,41 @@
 package com.chrisbarklow.tyrianclone.domain;
 
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.chrisbarklow.tyrianclone.utils.BackgroundParser;
+
 public class Level {
 	private final int id;
     private String name;
-    private boolean completed;
-    private Level nextLevel;
+    BackgroundParser bgParser;
 
-    public Level(
-        int id )
-    {
-        this.id = id;
+    public Level(String name ){
+        this.name = name;
+        id = 0;
     }
 
     /**
      * Retrieves the ID of this object.
      */
-    public int getId()
-    {
+    public int getId(){
         return id;
     }
 
     /**
      * Retrieves the level's name.
      */
-    public String getName()
-    {
+    public String getName(){
         return name;
     }
 
     /**
      * Sets the level's name.
      */
-    public void setName(
-        String name )
-    {
+    public void setName(String name ){
         this.name = name;
     }
-
-    /**
-     * Retrieves whether this level is completed.
-     */
-    public boolean isCompleted()
-    {
-        return completed;
-    }
-
-    /**
-     * Sets the level status.
-     */
-    public void setCompleted(
-        boolean completed )
-    {
-        this.completed = completed;
-    }
-
-    /**
-     * Retrieves the next level.
-     */
-    public Level getNextLevel()
-    {
-        return nextLevel;
-    }
-
-    /**
-     * Sets the next level.
-     */
-    public void setNextLevel(
-        Level nextLevel )
-    {
-        this.nextLevel = nextLevel;
-    }
-
-    /**
-     * Retrieves whether there is a next level.
-     */
-    public boolean hasNextLevel()
-    {
-        return ( nextLevel != null );
+    
+    public void load(Stage stage){
+    	bgParser = new BackgroundParser(stage, this.name);
+    	bgParser.parseBackground();
     }
 }

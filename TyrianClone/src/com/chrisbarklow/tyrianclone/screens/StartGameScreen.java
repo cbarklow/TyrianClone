@@ -73,7 +73,7 @@ public class StartGameScreen extends AbstractScreen {
         		
         		if(profile.getCurrentLevelId() >= targetLevelId){
         			Gdx.app.log(TyrianClone.LOG, "Starting Level: " + targetLevelId);
-        			game.setScreen(new LevelScreen(game, targetLevelId));
+        			game.setScreen(new LevelScreen(game, "test-level"));
         		} else {
         			Gdx.app.log(TyrianClone.LOG, "Unable to start level " + targetLevelId);
         		}

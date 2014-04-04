@@ -8,13 +8,13 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.chrisbarklow.tyrianclone.TyrianClone;
 
 public class AbstractScreen implements Screen {
 	
 	// the fixed viewport dimensions (ratio: 1.6)
-    public static final int GAME_VIEWPORT_WIDTH = 400, GAME_VIEWPORT_HEIGHT = 240;
+    public static final int GAME_VIEWPORT_WIDTH = 800, GAME_VIEWPORT_HEIGHT = 480;
 //    public static final int MENU_VIEWPORT_WIDTH = 800, MENU_VIEWPORT_HEIGHT = 480;
 	
 	protected final TyrianClone game;
@@ -29,17 +29,11 @@ public class AbstractScreen implements Screen {
 	
 	public AbstractScreen(TyrianClone game){
 		this.game = game;
-//		int width = ( isGameScreen() ? GAME_VIEWPORT_WIDTH : MENU_VIEWPORT_WIDTH );
-//        int height = ( isGameScreen() ? GAME_VIEWPORT_HEIGHT : MENU_VIEWPORT_HEIGHT );
 		this.stage = new Stage();
-		
-		//stage.setViewport(new StretchViewport(width, height, stage.getCamera()));
-		//stage.setViewport(new FillViewport(width, height, stage.getCamera()));
-		//stage.setViewport(new FitViewport(width, height, stage.getCamera()));
-		//stage.setViewport(new ExtendViewport(width, height, stage.getCamera()));
-		ScreenViewport svp = new ScreenViewport();
-		//svp.update(width, height, true);
-		stage.setViewport(svp);
+		//ScreenViewport svp = new ScreenViewport();
+		FitViewport fvp = new FitViewport(GAME_VIEWPORT_WIDTH, GAME_VIEWPORT_HEIGHT);
+		fvp.update(GAME_VIEWPORT_WIDTH, GAME_VIEWPORT_HEIGHT, true);
+		stage.setViewport(fvp);
 		
 		this.batch = new SpriteBatch();		
 	}
@@ -99,7 +93,7 @@ public class AbstractScreen implements Screen {
 	@Override
 	public void resize(int width, int height) {
 		Gdx.app.log(TyrianClone.LOG, "Resizing screen: " + getName() + " to " + width + " x " + height);
-		stage.getViewport().update(width, height, true);
+		//stage.getViewport().update(width, height, true);
 	}
 
 	@Override

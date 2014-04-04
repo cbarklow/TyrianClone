@@ -49,12 +49,12 @@ public class SplashScreen extends AbstractScreen {
 		stage.addActor(splashImage);
 	}
 	
-	@Override
-	public void resize(int width, int height){
-		super.resize(width, height);
-		splashImage.setWidth(width);
-		splashImage.setHeight(height);
-		
-		splashImage.invalidateHierarchy();
-	}
+//	@Override
+//	public void resize(int width, int height){
+//		super.resize(width, height);
+//		splashImage.setWidth(width);
+//		splashImage.setHeight(height);
+//		
+//		splashImage.invalidateHierarchy();
+//	}
 }

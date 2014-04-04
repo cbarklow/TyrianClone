@@ -97,7 +97,7 @@ public class TyrianClone extends Game {
         levelManager = new LevelManager();
 		
         //setScreen(getSplashScreen());
-        setScreen(new LevelScreen(this, 0));
+        setScreen(new LevelScreen(this, "test-level"));
 	}
 	
 	@Override
