@@ -8,8 +8,8 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.chrisbarklow.tyrianclone.utils.VectorUtils;
 
@@ -42,8 +42,10 @@ public class PlayerShip {
 	}
 	
 	@SuppressWarnings("static-access")
-	public void updateShip(float delta, float viewportWidth, float viewportHeight){
-		//position.set(this.getX(), this.getY());
+	public void updateShip(float delta, float viewportWidth, float viewportHeight, Rectangle viewport){
+		
+		//apply the camera offset
+		position.y += .01f;
     	
     	if(Gdx.input.isPeripheralAvailable( Peripheral.Accelerometer )){
     		
@@ -114,15 +116,15 @@ public class PlayerShip {
         VectorUtils.adjustByRange( this.velocity, - this.MAX_SPEED, this.MAX_SPEED );
 
         // modify and check the ship's position, applying the delta parameter
-        this.position.add( this.velocity.x * delta, this.velocity.y * delta );
+        this.position.add( this.velocity.x * delta, this.velocity.y * delta );               
 
         // we can't let the ship go off the screen, so here we check the new
         // ship's position against the stage's dimensions, correcting it if
         // needed and zeroing the velocity, so that the ship stops flying in the
         // current direction
-        if( VectorUtils.adjustByRangeX( this.position, 0, ( viewportWidth - this.WIDTH ) ) )
+        if( VectorUtils.adjustByRangeX( this.position, 0, ( viewport.width - this.WIDTH ) ) )
         	this.velocity.x = 0;
-        if( VectorUtils.adjustByRangeY( this.position, 0, ( viewportHeight - this.HEIGHT ) ) )
+        if( VectorUtils.adjustByRangeY( this.position, viewport.y, ( viewport.y + viewport.height - this.HEIGHT ) ) )
         	this.velocity.y = 0;
 	}
 	

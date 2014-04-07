@@ -12,7 +12,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.chrisbarklow.tyrianclone.PlayerShip;
 import com.chrisbarklow.tyrianclone.TyrianClone;
 import com.chrisbarklow.tyrianclone.managers.MusicManager.TyrianCloneMusic;
@@ -31,21 +32,25 @@ public class GameScreen implements Screen {
 	BitmapFont font;
 	StopWatch stopWatch;
 	float cameraYMove;
-	Vector3 cameraMove;
+	Vector2 cameraOffset;
+	Rectangle viewport;
 	
 	public GameScreen(TyrianClone game){
 		float w = Gdx.graphics.getWidth();
 		float h = Gdx.graphics.getHeight();
 		
 		camera = new OrthographicCamera();
-		camera.setToOrtho(false, (w/h) * 10, 10);
-		camera.update();
+		
+		//set how many tile units to be displayed in the game. This setup would display 16x10
+		camera.setToOrtho(false, (w/h) * 10, 10);		
 		
 		font = new BitmapFont();
 		batch = new SpriteBatch();
 		
+		//load the map, set the scale to 1/32 (1 unit = 32 pixels)
+		//the bigger the fraction, the more zoomed in the game feels
 		map = new TmxMapLoader().load("tyrian-clone1.tmx");
-		renderer = new OrthogonalTiledMapRenderer(map, 1/32f);	      
+		renderer = new OrthogonalTiledMapRenderer(map, 1/16f);	      
 		
 		atlas = new TextureAtlas(Gdx.files.internal("image-atlas/pages.txt"));
 		shipTexture = atlas.findRegion("level-screen/ship-model-gencore-phoenix", 0);
@@ -54,8 +59,7 @@ public class GameScreen implements Screen {
 		ship.HEIGHT = (1/16f) * shipTexture.getRegionHeight();		
 		this.game = game;
 		
-		cameraYMove = 0;
-		cameraMove = new Vector3();
+		viewport = new Rectangle(0, 0, camera.viewportWidth, camera.viewportHeight);
 		
 		stopWatch = new StopWatch();
 		stopWatch.start();
@@ -66,14 +70,18 @@ public class GameScreen implements Screen {
 		//the following code clears the screen with the given RGB color
 		Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+				
+		viewport.y += .01f;
 		
 		camera.translate(0, .01f, 0);
 		
-		camera.update();		
+		camera.update();
+		
 		renderer.setView(camera);
 		renderer.render();
 		
-		ship.updateShip(delta, camera.viewportWidth, camera.viewportHeight);
+		//float cameraY = camera.position.y - 5;
+		ship.updateShip(delta, camera.viewportWidth, camera.viewportHeight, viewport);
 		ship.tiltShip(delta);
 		
 		Batch renderBatch = renderer.getSpriteBatch();
