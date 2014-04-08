@@ -2,20 +2,11 @@ package com.chrisbarklow.tyrianclone;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.FPSLogger;
-import com.chrisbarklow.tyrianclone.managers.LevelManager;
 import com.chrisbarklow.tyrianclone.managers.MusicManager;
 import com.chrisbarklow.tyrianclone.managers.PreferenceManager;
-import com.chrisbarklow.tyrianclone.managers.PreferencesManager;
-import com.chrisbarklow.tyrianclone.managers.ProfileManager;
 import com.chrisbarklow.tyrianclone.managers.SoundManager;
-import com.chrisbarklow.tyrianclone.screens.HighScoresScreen;
-import com.chrisbarklow.tyrianclone.screens.MenuScreen;
-import com.chrisbarklow.tyrianclone.screens.OptionsScreen;
-import com.chrisbarklow.tyrianclone.screens.SplashScreen;
-import com.chrisbarklow.tyrianclone.screens.StartGameScreen;
 import com.chrisbarklow.tyrianclone.screens.StartScreen;
 
 
@@ -26,32 +17,19 @@ public class TyrianClone extends Game {
 	//a libgdx helper class that logs the current FPS
 	private FPSLogger fpsLogger;
 	
-	//services
-	private final ProfileManager profileService;
-	private final PreferencesManager preferencesManager;
+	//manager
 	private MusicManager musicManager;
-	private SoundManager soundManager;
-	private LevelManager levelManager;
+	private SoundManager soundManager;	
 	private PreferenceManager preferenceManager;
 	
 	public static boolean debug_mode = true;
 	
 	public TyrianClone(){
-		profileService = new ProfileManager();
-		preferencesManager = new PreferencesManager();
 		preferenceManager = new PreferenceManager();	
 	}
 	
 	public PreferenceManager getPreferenceManager(){
 		return preferenceManager;
-	}
-	
-	public ProfileManager getProfileManager(){
-		return profileService;
-	}
-	
-	public PreferencesManager getPreferencesManager(){
-		return preferencesManager;
 	}
 	
 	public SoundManager getSoundManager(){
@@ -62,51 +40,17 @@ public class TyrianClone extends Game {
 		return musicManager;
 	}
 	
-	public LevelManager getLevelManager(){
-		return levelManager;
-	}
-	
-	public SplashScreen getSplashScreen(){
-		return new SplashScreen(this);
-	}
-	
-	public MenuScreen getMenuScreen(){
-		return new MenuScreen(this);
-	}
-	
-	public StartGameScreen getStartGameScreen(){
-		return new StartGameScreen(this);
-	}
-	
-	public HighScoresScreen getHighScoresScreen(){
-		return new HighScoresScreen(this);
-	}
-	
-	public OptionsScreen getOptionsScreen(){
-		return new OptionsScreen(this);
-	}
-	
 	@Override
 	public void create(){
 		Gdx.app.log(TyrianClone.LOG, "Creating game");
 		fpsLogger = new FPSLogger();
-		profileService.retrieveProfile();
 		
 		// create the music manager service
         musicManager = new MusicManager();
-        musicManager.setVolume(preferencesManager.getVolume());
-        musicManager.setEnabled(preferencesManager.isMusicEnabled());
 
         // create the sound manager service
         soundManager = new SoundManager();
-        soundManager.setVolume(preferencesManager.getVolume());
-        soundManager.setEnabled(preferencesManager.isSoundEnabled());
         
-        levelManager = new LevelManager();
-		
-        //setScreen(getSplashScreen());
-        //setScreen(new LevelScreen(this, "test-level"));
-        //setScreen(new TestScreen(this));
         setScreen(new StartScreen(this));
 	}
 	
@@ -127,7 +71,7 @@ public class TyrianClone extends Game {
 	public void pause(){
 		super.pause();
 		Gdx.app.log(TyrianClone.LOG, "Pausing the game.");
-		profileService.persist();
+		//profileService.persist();
 	}
 	
 	@Override

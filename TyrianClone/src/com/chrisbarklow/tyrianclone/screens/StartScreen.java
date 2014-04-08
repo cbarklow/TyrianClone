@@ -12,13 +12,16 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.chrisbarklow.tyrianclone.TyrianClone;
 import com.chrisbarklow.tyrianclone.managers.MusicManager.TyrianCloneMusic;
 import com.chrisbarklow.tyrianclone.managers.SoundManager.TyrianCloneSound;
 import com.chrisbarklow.tyrianclone.utils.StopWatch;
 
 public class StartScreen implements Screen {
+	
+	final float WORLD_WIDTH = 800;
+	final float WORLD_HEIGHT = 480;
 	
 	Stage stage;
 	Table table;
@@ -27,7 +30,8 @@ public class StartScreen implements Screen {
 	
 	public StartScreen(TyrianClone game){
 		this.game = game;
-		ScreenViewport svp = new ScreenViewport();
+		//ScreenViewport svp = new ScreenViewport();
+		StretchViewport svp = new StretchViewport(WORLD_WIDTH, WORLD_HEIGHT);
 		this.stage = new Stage(svp);
 		
 		TextureAtlas atlas = new TextureAtlas(Gdx.files.internal( "skin/uiskin.atlas" ));
@@ -54,11 +58,14 @@ public class StartScreen implements Screen {
 	@Override
 	public void show() {
 		Gdx.input.setInputProcessor(stage);
-		//game.getMusicManager().play(TyrianCloneMusic.MENU);		
+		game.getMusicManager().play(TyrianCloneMusic.MENU);		
 		
 		table = new Table(skin);
 		table.setFillParent(true);
-		table.add("Tyrian Clone!").spaceBottom(50f).row();
+		table.add("Tyrian Dodger").spaceBottom(50f).row();
+				
+		table.setFillParent(true);
+		table.add("Tilt your phone to move the ship. Dodge enemy bullets!").spaceBottom(50f).row();
 	
 		// start game button
         TextButton playButton = new TextButton( "Press to Play", skin);
@@ -73,7 +80,9 @@ public class StartScreen implements Screen {
         table.add(playButton).uniform().fill().spaceBottom(50f);
         table.row();
         
-        table.add("Best Time: " + StopWatch.convertToString(game.getPreferenceManager().getBestScore()));
+        String bestTime = StopWatch.convertToString(game.getPreferenceManager().getBestScore());
+        
+        table.add("Best Time: " + bestTime);
 		
 		stage.addActor(table);
 

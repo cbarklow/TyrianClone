@@ -14,13 +14,14 @@ public class PreferenceManager {
 	
 	public long getBestScore(){
 		long defaultTime = 0;
-		if(!getPrefs().getString(BEST_TIME).equals(""))
-			return Long.parseLong(getPrefs().getString(BEST_TIME));
+		if(getPrefs().getLong(BEST_TIME) != 0)
+			return getPrefs().getLong(BEST_TIME);
 		return defaultTime;
 	}
 	
-	public void setBestScore(String newBestTime ){
-		getPrefs().putString(BEST_TIME, newBestTime);
-		getPrefs().flush();
+	public void setBestScore(long newBestTime ){
+		Preferences prefs = getPrefs();
+		prefs.putLong(BEST_TIME, newBestTime);
+		prefs.flush();
 	}
 }

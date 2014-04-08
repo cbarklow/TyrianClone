@@ -50,6 +50,8 @@ public class GameScreen implements Screen {
 		font = new BitmapFont();
 		batch = new SpriteBatch();
 		
+		font.setScale((w/h));
+		
 		initPlayer();
 		initEnemies();
 		
@@ -121,10 +123,12 @@ public class GameScreen implements Screen {
 		ship.draw(renderBatch);
 		renderBatch.end();
 		
+		String elapsedTime = stopWatch.getElapsedTimeMin() + ":" + stopWatch.getElapsedTimeSecs() + ":" + stopWatch.getElapsedTimeMilli();
+		
 		batch.begin();		
 		font.draw(batch
-				, "Time: " + stopWatch.getElapsedTimeMin() + ":" + stopWatch.getElapsedTimeSecs() + ":" + stopWatch.getElapsedTimeMilli()
-				, Gdx.graphics.getWidth()/2
+				, "Time: " + elapsedTime
+				, Gdx.graphics.getWidth()/2 - font.getBounds(elapsedTime).width
 				, Gdx.graphics.getHeight() - font.getCapHeight());
 		batch.end();
 	}
@@ -167,7 +171,7 @@ public class GameScreen implements Screen {
 		long bestTime = game.getPreferenceManager().getBestScore();
 		
 		if(stopWatch.getTotalElapsedMilli() > bestTime){
-			game.getPreferenceManager().setBestScore("" + stopWatch.getTotalElapsedMilli());
+			game.getPreferenceManager().setBestScore(stopWatch.getTotalElapsedMilli());
 		}
 		
 		game.setScreen(new StartScreen(game));

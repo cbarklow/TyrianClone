@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="50" height="30" tilewidth="16" tileheight="16">
+ <tileset firstgid="1" name="tyrian-tileset" tilewidth="16" tileheight="16">
+  <image source="tyrian-tileset.png" width="240" height="280"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="50" height="30">
+  <data encoding="base64" compression="zlib">
+   eJzt1s0ORDAUhuEm7tawkImtEGt/sZ1wAbhHpwlJ05SpWjinzuLdyvcIJRBCBA6F0AeqtyIodrzWk+2OyANHrVQSdpRa7GAHO/xyfD1wmAyyARoR7Ltj6Ika5O5ZaUGwz6ZMu/8tgk0uVexAle5IoQTBrrsOqpafwUHRMkHdieXpfVcyPVuyHCoQ7LNJ/36oNYLG+XX0L0LJ8c9AwWFjwO6wNWB2nL3TlBxH5ys72PE2xwoXjJE0
+  </data>
+ </layer>
+</map>
