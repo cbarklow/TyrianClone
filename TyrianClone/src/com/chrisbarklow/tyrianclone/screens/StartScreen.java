@@ -16,6 +16,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.chrisbarklow.tyrianclone.TyrianClone;
 import com.chrisbarklow.tyrianclone.managers.MusicManager.TyrianCloneMusic;
 import com.chrisbarklow.tyrianclone.managers.SoundManager.TyrianCloneSound;
+import com.chrisbarklow.tyrianclone.utils.StopWatch;
 
 public class StartScreen implements Screen {
 	
@@ -53,7 +54,7 @@ public class StartScreen implements Screen {
 	@Override
 	public void show() {
 		Gdx.input.setInputProcessor(stage);
-		game.getMusicManager().play(TyrianCloneMusic.MENU);		
+		//game.getMusicManager().play(TyrianCloneMusic.MENU);		
 		
 		table = new Table(skin);
 		table.setFillParent(true);
@@ -72,7 +73,7 @@ public class StartScreen implements Screen {
         table.add(playButton).uniform().fill().spaceBottom(50f);
         table.row();
         
-        table.add("Best Time: " + game.getPreferenceManager().getBestScore());
+        table.add("Best Time: " + StopWatch.convertToString(game.getPreferenceManager().getBestScore()));
 		
 		stage.addActor(table);
 

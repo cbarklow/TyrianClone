@@ -17,9 +17,9 @@ public class PlayerShip {
 	
 	public float WIDTH;
 	public float HEIGHT;
-	public static final float MAX_SPEED = 24;
+	public static final float MAX_SPEED = 12;
     public static final float MAX_ACCELERATION = 2;
-    public static final float MAX_DECELERATION = MAX_ACCELERATION / 2;
+    public static final float MAX_DECELERATION = MAX_ACCELERATION / 4;
 
 	public final Vector2 position = new Vector2();
 	public final Vector2 velocity = new Vector2();
@@ -27,7 +27,10 @@ public class PlayerShip {
 	
 	private final Animation tiltAnimation;
 	private float tiltAnimationStateTime;
-    private TextureRegion frame;    
+    private TextureRegion frame;  
+    public Rectangle boundingRect;
+    
+    public boolean isAlive;
 	
 	public PlayerShip(){
 		TextureAtlas textureAtlas = new TextureAtlas(Gdx.files.internal("image-atlas/pages.txt"));
@@ -35,17 +38,23 @@ public class PlayerShip {
     	Array<AtlasRegion> regions = textureAtlas.findRegions("level-screen/ship-model-gencore-phoenix");
     	
     	frame = textureAtlas.findRegion("level-screen/ship-model-gencore-phoenix", 0);
+    	
+    	this.WIDTH = (1/32f) * frame.getRegionWidth();
+    	this.HEIGHT = (1/32f) * frame.getRegionHeight();
 		
 		// create the tilt animation (each frame will be shown for 0.15
         // seconds when the animation is active)
         this.tiltAnimation = new Animation(0.15f, regions);
+        isAlive = true;
+        
+        boundingRect = new Rectangle();
 	}
 	
 	@SuppressWarnings("static-access")
 	public void updateShip(float delta, float viewportWidth, float viewportHeight, Rectangle viewport){
 		
 		//apply the camera offset
-		position.y += .01f;
+		//position.y += .01f;
     	
     	if(Gdx.input.isPeripheralAvailable( Peripheral.Accelerometer )){
     		
@@ -116,7 +125,12 @@ public class PlayerShip {
         VectorUtils.adjustByRange( this.velocity, - this.MAX_SPEED, this.MAX_SPEED );
 
         // modify and check the ship's position, applying the delta parameter
-        this.position.add( this.velocity.x * delta, this.velocity.y * delta );               
+        this.position.add( this.velocity.x * delta, this.velocity.y * delta );  
+        
+        this.boundingRect.x = this.position.x;
+        this.boundingRect.y = this.position.y;
+        this.boundingRect.width = WIDTH;
+        this.boundingRect.height = HEIGHT;
 
         // we can't let the ship go off the screen, so here we check the new
         // ship's position against the stage's dimensions, correcting it if
@@ -149,6 +163,21 @@ public class PlayerShip {
         // times as the current region (the call will be ignored in this case)
         //setDrawable(tiltAnimationDrawables.get(frame));
     }
+	
+	public void killPlayer(){
+		//playDeathAnimation();
+		isAlive = false;
+		resetPlayer();
+	}
+	
+	private void playDeathAnimation(){
+		
+	}
+	
+	private void resetPlayer(){
+		this.position.x = 0;
+		this.position.y = 0;
+	}
 	
 	public void draw(Batch batch){
 		batch.draw(frame, this.position.x, this.position.y, this.WIDTH, this.HEIGHT);

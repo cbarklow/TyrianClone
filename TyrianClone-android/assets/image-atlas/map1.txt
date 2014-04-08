@@ -1,0 +1,11 @@
+map1.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+map1
+  rotate: false
+  xy: 2, 2
+  size: 800, 480
+  orig: 800, 480
+  offset: 0, 0
+  index: -1

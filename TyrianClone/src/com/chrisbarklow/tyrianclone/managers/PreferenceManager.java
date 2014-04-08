@@ -12,10 +12,10 @@ public class PreferenceManager {
         return Gdx.app.getPreferences( PREFS_NAME );
     }
 	
-	public String getBestScore(){
-		String defaultTime = "0:00:00";
+	public long getBestScore(){
+		long defaultTime = 0;
 		if(!getPrefs().getString(BEST_TIME).equals(""))
-			return getPrefs().getString(BEST_TIME);
+			return Long.parseLong(getPrefs().getString(BEST_TIME));
 		return defaultTime;
 	}
 	

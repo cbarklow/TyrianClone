@@ -1,0 +1,11 @@
+enemy.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+enemy
+  rotate: false
+  xy: 2, 2
+  size: 26, 30
+  orig: 32, 32
+  offset: 3, 2
+  index: -1

@@ -7,13 +7,33 @@ public class StopWatch {
 	private boolean running;
 
 	public void start(){
-		this.startTime = System.currentTimeMillis();
+		if(startTime == 0)
+			this.startTime = System.currentTimeMillis();
 		this.running = true;
 	}
 
 	public void stop(){
 		this.stopTime = System.currentTimeMillis();
 		this.running = false;
+	}
+	
+	public static String convertToString(long time){
+		String min = "" + (time/60000) % 60;
+		String second = "" + (time/1000) % 60;
+		String milli = "" + time % 1000;
+		
+		return min + ":" + second + ":" + milli;
+	}
+	
+	public long getTotalElapsedMilli(){
+		long elapsed;
+		if (running) {
+			elapsed = (System.currentTimeMillis() - startTime);
+		}
+		else {
+			elapsed = (stopTime - startTime);
+		}
+		return elapsed;
 	}
 
 	//elaspsed time in milliseconds
@@ -25,8 +45,8 @@ public class StopWatch {
 		else {
 			elapsed = (stopTime - startTime);
 		}
-		elapsed = elapsed % 1000;
-		return elapsed;
+		
+		return elapsed % 1000;
 	}
 
 	//elaspsed time in seconds
@@ -38,8 +58,8 @@ public class StopWatch {
 		else {
 			elapsed = ((stopTime - startTime) / 1000);
 		}
-		elapsed = elapsed % 60;
-		return elapsed;
+		
+		return elapsed % 60;
 	}
 
 	//elapsed time in minutes
@@ -50,7 +70,7 @@ public class StopWatch {
 		} else {
 			elapsed = ((stopTime - startTime) / 60000);
 		}
-		elapsed = elapsed % 60;
-		return elapsed;
+		
+		return elapsed % 60;
 	}
 }
